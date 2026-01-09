@@ -8,7 +8,7 @@ Create View dim_customer AS
         country as Country, 
         PostalCode, 
         SalesRepEmployeeNumber AS SalesRepID, 
-        creditlimit
+        creditlimit AS CreditLimit
 	FROM customers;
 
 #Creating Dimension Table: Employees
@@ -16,16 +16,16 @@ Create View dim_customer AS
 		SELECT  
 			`employeeNumber` AS EmployeeID, 
             Concat(`firstname`, ' ', `lastname`) AS EmployeeName,  
-            `officeCode`, 
-            `reportsTo`, 
+            `officeCode` AS OfficeCode, 
+            `reportsTo` AS ReportsTo, 
             `jobTitle` AS Designation
 		FROM employees;
         
 # Creating Dimension View: Offices
 CREATE VIEW dim_offices AS
 	SELECT 
-		`offices`.`officeCode`,
-		`offices`.`city`,
+		`offices`.`officeCode` AS OfficeCode,
+		`offices`.`city` AS City,
 		COALESCE(`offices`.`state`, 'Unknown') AS State,
 		`offices`.`country` AS Country,
 		`offices`.`postalCode` AS PostalCode,
@@ -44,7 +44,7 @@ CREATE VIEW dim_offices AS
 				THEN 'Asia-Pacific'
 			ELSE 'Unknown'
         END AS Territory
-	FROM `sales_analytics`.`offices`;
+	FROM `sales_analytics`.`offices` AS Offices;
 
 # FACT_SALES
 CREATE VIEW fact_sales AS 
